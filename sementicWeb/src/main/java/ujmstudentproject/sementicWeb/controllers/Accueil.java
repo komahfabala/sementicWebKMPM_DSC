@@ -1,27 +1,58 @@
 package ujmstudentproject.sementicWeb.controllers;
 
-import org.apache.jena.query.Query;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdfconnection.RDFConnection;
-import org.apache.jena.query.ResultSetFormatter;
-import org.apache.jena.rdfconnection.RDFConnectionRemote;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ujmstudentproject.sementicWeb.Connection.Fuseki;
+import org.apache.commons.codec.Charsets;
 
 @RestController
 @RequestMapping("/")
 public class Accueil{
+
+    @PostMapping("/csv")
+    public void readCSV(String filePath){
+       String sep = ";";
+       try{
+           File csvFile = new File(filePath);
+          
+         FileReader fr = new FileReader(csvFile, Charsets.UTF_8);
+         BufferedReader bReader = new BufferedReader(fr);
+            String line = "";
+           //0==Heure;1==Nb.;2==Visi;3==Temperature
+           String[] arrayStrings;
+           while((line = bReader.readLine()) !=null){
+               arrayStrings = line.split(sep);
+               System.out.println(arrayStrings[0] + " ");
+               for(String lines : arrayStrings){  // ===> int i=0; i<arrayStrings.length;i++
+                   System.out.println(lines + " ");
+               }
+               System.out.println();
+           }
+           
+       }catch(IOException ex){
+           ex.printStackTrace();
+       }
+
+    }
+    
     @GetMapping
     public void createCon(){
-        String datasetURL = "http://localhost:3030/station";
+        Fuseki test = Fuseki.builder().datasetURL("http://localhost:3030/station").build();
+        
+        String datasetURL = test.getDatasetURL();
         String sparqlEndpoint = datasetURL + "/sparql";
         String sparqlUpdate = datasetURL + "/update";
         String graphStore = datasetURL + "/data";
@@ -44,13 +75,3 @@ public class Accueil{
     }
 
 }
-
-/*
-   RDFConnection conn0 = RDFConnectionRemote.newBuilder()
-        .destination(datasetURL)
-        .queryEndpoint("station").acceptHeaderSelectQuery("application/sparql-results+json, application/sparql-results+xml;q=0.9").build();
-        Query query = QueryFactory.create("Select ?subject Where{?subject ?predicate ?object}");
-        try ( RDFConnection conn = conn0 ) {
-            conn.queryResultSet(query, ResultSetFormatter::out);
-        }
-*/
