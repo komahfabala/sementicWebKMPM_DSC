@@ -16,7 +16,4 @@ String sparqlEndpoint = datasetURL + "/sparql";
 String sparqlUpdate = datasetURL + "/update";
 String graphStore = datasetURL + "/data";
 */
-
-
-
 }
