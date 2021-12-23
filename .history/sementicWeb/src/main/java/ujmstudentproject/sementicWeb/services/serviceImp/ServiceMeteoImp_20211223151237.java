@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ujmstudentproject.sementicweb.models.Meteo;
 import ujmstudentproject.sementicweb.services.ServiceMeteo;
 
-
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -65,7 +65,7 @@ public class ServiceMeteoImp implements ServiceMeteo{
                         Elements em = tab.get(4).select("tr");
                         Elements em1 = tab.get(5).select("tr");
                 
-                        for(Element row: em){// je sais pas a quoi ça sert mais bon :)
+                        for(Element row: em){
                             if(row.select("td").size() == 5){
                                 max = row.select("td").get(0).text();
                                 min = row.select("td").get(1).text();
