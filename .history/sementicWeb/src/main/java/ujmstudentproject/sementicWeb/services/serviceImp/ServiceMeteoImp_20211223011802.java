@@ -1,25 +1,19 @@
 package ujmstudentproject.sementicweb.services.serviceimp;
 
-
 import org.springframework.stereotype.Service;
-
 
 import ujmstudentproject.sementicweb.models.Meteo;
 import ujmstudentproject.sementicweb.services.ServiceMeteo;
 
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
+import java.io.PrintWriter;
 import com.opencsv.CSVWriter;
 
 import org.apache.jena.rdf.model.Model;
 import org.jsoup.Jsoup;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -46,39 +40,35 @@ public class ServiceMeteoImp implements ServiceMeteo{
         String myUrl = "";
         String date = "12-12-22";
         // le sraping du site meteo de saint-etienne
-        Hashtable<String, String[]> dt = new Hashtable<String, String[]>();
         try {
             for(int i=1; i <= 30; i++){
-                myUrl = url + i + mois + "8" + annee; // url pour la pagination à revoir 
-            
-                final Document doc = Jsoup.connect(myUrl).userAgent("mozilla").timeout(3000).get();
+                myUrl = url + i + mois + "10" + annee;
+                System.out.println(myUrl);
+                final Document doc = Jsoup.connect(myUrl).timeout(3000).get();
                 String html = String.valueOf(doc.select("body"));
                 Document doc1 = Jsoup.parse(html);
-                
-                Elements ft = doc1.select("font > center"); // recuperation de la date 
-                for (Element element : ft) {
-                    date = element.text();
-                }
                 Elements tab = doc1.select(" center > table > tbody > tr");
                 Elements em = tab.get(4).select("tr");
                 Elements em1 = tab.get(5).select("tr");
-        
                 for(Element row: em){
                     if(row.select("td").size() == 5){
                         max = row.select("td").get(0).text();
                         min = row.select("td").get(1).text();
                     }
                 }
-                
-                for(Element row: em1){ // recuperation des valeurs des temperatures  
+                // recuperation des valeurs des temperatures  
+             
+                for(Element row: em1){
+                    String valMax = "", valMin= "";
                     if(row.select("td").size() == 5){
-                        String valMax = row.select("td").get(0).text();
-                        String valMin = row.select("td").get(1).text();
-                        double c = Math.random()*(1000-1); // à remplacer par la datae
-                        dt.put(String.valueOf(c), new String []{valMax,valMin,date});
-                        saveDataInCsv(dt);
+                        valMax = row.select("td").get(0).text();
+                        valMin = row.select("td").get(1).text();
+                        saveDataInCsv(valMax, valMin, date);
                     }
                 }
+                //System.out.println(max + "-->" + valMax);
+                //System.out.println(min + "-->" + valMin);
+                
             }
         } catch (Exception e) {
            e.printStackTrace();
@@ -86,25 +76,18 @@ public class ServiceMeteoImp implements ServiceMeteo{
     }
 
     @Override
-    public void saveDataInCsv( Hashtable<String, String[]> dict_temp) {
-        /**
-         *  cette fonction enregistre les données meteorologique dans un fichier csv.
-         */
+    public void saveDataInCsv(String maxTemperature, String minTemperature, String date) {
             try {
-                // creation du fichier
                 CSVWriter writeFile = new CSVWriter(new FileWriter("meteo.csv"),',');
-                String set1[] = {"maxTp","minTp","date"}; // en tete du fichier
-                ArrayList<String[]> data = new ArrayList<String[]>(1000); // la lsite de 
-                data.add(set1);
-                Enumeration names = dict_temp.keys();
-                while( names.hasMoreElements()){ // parcours du dictionaiore
-                    String key = (String) names.nextElement();
-                    data.add(dict_temp.get(key));
-                }
-                writeFile.writeAll(data); // enregistrement de data
+                String set1[] = {"maxTp","minTp","date"};
+                String set2[] = {maxTemperature, minTemperature,date};
+                writeFile.writeNext(set1);
+                writeFile.writeNext(set2);
+                writeFile.flush();
 		        writeFile.close();
                 System.out.println("données enregistrées");
             } catch (IOException e) {
+                
                 e.printStackTrace();
             }
             
@@ -112,3 +95,10 @@ public class ServiceMeteoImp implements ServiceMeteo{
     }
 
 }
+
+/*
+    PrintWriter out = new PrintWriter(fileCSV);
+            out.println(maxTemperature + ";" + minTemperature + ";" + date);
+            out.flush();
+            out.close();
+*/

@@ -49,14 +49,14 @@ public class ServiceMeteoImp implements ServiceMeteo{
         Hashtable<String, String[]> dt = new Hashtable<String, String[]>();
         try {
             for(int i=1; i <= 30; i++){
-                myUrl = url + i + mois + "8" + annee; // url pour la pagination à revoir 
-            
+                myUrl = url + i + mois + "9" + annee;
+                System.out.println(myUrl);
                 final Document doc = Jsoup.connect(myUrl).userAgent("mozilla").timeout(3000).get();
                 String html = String.valueOf(doc.select("body"));
                 Document doc1 = Jsoup.parse(html);
-                
-                Elements ft = doc1.select("font > center"); // recuperation de la date 
+                Elements ft = doc1.select("font > center");
                 for (Element element : ft) {
+                    System.out.println(element.text());
                     date = element.text();
                 }
                 Elements tab = doc1.select(" center > table > tbody > tr");
@@ -69,8 +69,10 @@ public class ServiceMeteoImp implements ServiceMeteo{
                         min = row.select("td").get(1).text();
                     }
                 }
+                // recuperation des valeurs des temperatures  
                 
-                for(Element row: em1){ // recuperation des valeurs des temperatures  
+                for(Element row: em1){
+                    
                     if(row.select("td").size() == 5){
                         String valMax = row.select("td").get(0).text();
                         String valMin = row.select("td").get(1).text();

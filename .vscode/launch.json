@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch SementicWebApplication",
+            "request": "launch",
+            "mainClass": "ujmstudentproject.sementicweb.SementicWebApplication",
+            "projectName": "sementicWeb"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SementicWebApplication<sementicWeb>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "ujmstudentproject.sementicWeb.SementicWebApplication",
+            "projectName": "sementicWeb",
+            "args": ""
+        }
+    ]
+}

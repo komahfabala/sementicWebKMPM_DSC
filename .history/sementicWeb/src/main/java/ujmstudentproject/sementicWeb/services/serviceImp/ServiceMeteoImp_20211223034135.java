@@ -46,35 +46,32 @@ public class ServiceMeteoImp implements ServiceMeteo{
         String myUrl = "";
         String date = "12-12-22";
         // le sraping du site meteo de saint-etienne
+        ArrayList<String> ml = new ArrayList<String>();
         Hashtable<String, String[]> dt = new Hashtable<String, String[]>();
         try {
-            for(int i=1; i <= 30; i++){
-                myUrl = url + i + mois + "8" + annee; // url pour la pagination à revoir 
-            
-                final Document doc = Jsoup.connect(myUrl).userAgent("mozilla").timeout(3000).get();
+            for(int i=1; i <= 31; i++){
+                myUrl = url + i + mois + "11" + annee;
+                System.out.println(myUrl);
+                final Document doc = Jsoup.connect(myUrl).timeout(3000).get();
                 String html = String.valueOf(doc.select("body"));
                 Document doc1 = Jsoup.parse(html);
-                
-                Elements ft = doc1.select("font > center"); // recuperation de la date 
-                for (Element element : ft) {
-                    date = element.text();
-                }
                 Elements tab = doc1.select(" center > table > tbody > tr");
                 Elements em = tab.get(4).select("tr");
                 Elements em1 = tab.get(5).select("tr");
-        
                 for(Element row: em){
                     if(row.select("td").size() == 5){
                         max = row.select("td").get(0).text();
                         min = row.select("td").get(1).text();
                     }
                 }
+                // recuperation des valeurs des temperatures  
                 
-                for(Element row: em1){ // recuperation des valeurs des temperatures  
+                for(Element row: em1){
+                    
                     if(row.select("td").size() == 5){
                         String valMax = row.select("td").get(0).text();
                         String valMin = row.select("td").get(1).text();
-                        double c = Math.random()*(1000-1); // à remplacer par la datae
+                        double c = Math.random()*(1000-1);
                         dt.put(String.valueOf(c), new String []{valMax,valMin,date});
                         saveDataInCsv(dt);
                     }
