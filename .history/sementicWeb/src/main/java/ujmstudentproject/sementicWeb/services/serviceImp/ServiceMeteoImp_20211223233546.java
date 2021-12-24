@@ -35,7 +35,7 @@ public class ServiceMeteoImp implements ServiceMeteo{
     public String url = "https://www.meteociel.fr/temps-reel/obs_villes.php?code2=7475&jour2=";
     public String mois = "&mois2=";
     public String annee = "&annee2=2021";
-    private final String datasetUrl = "http://localhost:3030/komahDataSet";
+    private final String datasetUrl = "http://localhost:3030/test";
     private final String sparqlEndpoint = datasetUrl + "/sparql";
     
     /**
@@ -134,10 +134,10 @@ public class ServiceMeteoImp implements ServiceMeteo{
     }
 
     public void loaderRDF(Model model){
-        /*String sparqlUpdate = datasetUrl + "/upload";
-        String graphStore = datasetUrl + "/komahDataSet";
+        String sparqlUpdate = datasetUrl + "/update";
+        String graphStore = datasetUrl + "/data";
         RDFConnection conneg = RDFConnectionFactory.connect(sparqlEndpoint,sparqlUpdate,graphStore);
-        conneg.put(model); // add the content of model to the triplestore*/
+        conneg.load(model); // add the content of model to the triplestore
     }
 
 }

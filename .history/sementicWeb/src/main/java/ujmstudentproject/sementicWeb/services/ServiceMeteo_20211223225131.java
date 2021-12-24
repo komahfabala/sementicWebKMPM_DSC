@@ -13,7 +13,6 @@ public interface ServiceMeteo{
     */
     public Model meteoToRDF(Meteo meteo, String city);
     public void parserWebString();
-    public void saveDataInCsv(Hashtable<String, String[]> dt); 
-    public void loaderRDF(Model model); // charge ttl sur fuseki
-    public Model rdfModel(); // retourne un model rdf
+    public void saveDataInCsv(Hashtable<String, String[]> dt);
+    public void loaderRDF(Model model);
 }

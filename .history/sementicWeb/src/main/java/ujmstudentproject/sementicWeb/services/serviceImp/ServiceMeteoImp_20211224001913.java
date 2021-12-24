@@ -134,10 +134,10 @@ public class ServiceMeteoImp implements ServiceMeteo{
     }
 
     public void loaderRDF(Model model){
-        /*String sparqlUpdate = datasetUrl + "/upload";
+        String sparqlUpdate = datasetUrl + "/upload";
         String graphStore = datasetUrl + "/komahDataSet";
         RDFConnection conneg = RDFConnectionFactory.connect(sparqlEndpoint,sparqlUpdate,graphStore);
-        conneg.put(model); // add the content of model to the triplestore*/
+        conneg.put(model); // add the content of model to the triplestore
     }
 
 }
