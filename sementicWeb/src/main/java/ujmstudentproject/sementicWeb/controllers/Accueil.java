@@ -9,18 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ujmstudentproject.sementicweb.services.*;
 
 
-
-@Controller 
+@RestController
+@RequestMapping("/")
 public class Accueil{
     @Autowired
     ServiceMeteo service;
-    @RequestMapping("/home")
+    @GetMapping("/home")
     public String  scraping(){
        // service.parserWebString();
        Model model = service.rdfModel();
        service.loaderRDF(model);
         return "index.html";
     }
+
+    @GetMapping
+    public void load
     
 
 }
