@@ -1,3 +1,8 @@
+package ujmstudentproject.sementicWeb.services;
+
+import java.util.*;
+
+import org.apache.jena.rdf.model.Model;
 
 public interface ServiceFuseki{
     public void readCSV(String filePath);

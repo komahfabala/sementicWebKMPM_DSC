@@ -1,12 +1,12 @@
-package ujmstudentproject.sementicweb.controllers;
+package ujmstudentproject.sementicWeb.controllers;
 
 import org.apache.jena.rdf.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-
-import ujmstudentproject.sementicweb.services.*;
+import ujmstudentproject.sementicWeb.services.*;
 
 
 @RestController
@@ -21,9 +21,6 @@ public class Accueil{
        service.loaderRDF(model);
         return "index.html";
     }
-
-    @GetMapping
-    public void load
     
 
 }

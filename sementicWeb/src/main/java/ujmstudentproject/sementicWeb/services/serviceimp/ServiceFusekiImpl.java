@@ -1,6 +1,20 @@
+package ujmstudentproject.sementicWeb.services.serviceimp;
+
+import java.io.*;
+import java.util.*;
+
+import org.apache.commons.codec.Charsets;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.rdfconnection.*;
+import org.apache.jena.vocabulary.*;
+import org.springframework.stereotype.Service;
+
+import ujmstudentproject.sementicWeb.services.ServiceFuseki;
 
 @Service
-public class ServiceFusekiImp implements ServiceFuseki{
+public class ServiceFusekiImpl implements ServiceFuseki{
     public Model weather(Map<String, ArrayList<String>> tempValueMap, String code){
         //www.meteociel.fr/temps-reel/obs_villes.php?code2=7475&jour2=22&mois2=11&annee2=2021
         String temp_uri = "https://www.meteociel.fr/temps-reel/obs_villes.php/";

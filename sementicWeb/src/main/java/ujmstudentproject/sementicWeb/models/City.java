@@ -1,4 +1,4 @@
-package ujmstudentproject.sementicweb.models;
+package ujmstudentproject.sementicWeb.models;
 import lombok.Data;
 
 @Data

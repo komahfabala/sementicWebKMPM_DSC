@@ -1,6 +1,6 @@
-package ujmstudentproject.sementicweb.services.serviceimp;
+package ujmstudentproject.sementicWeb.services.serviceimp;
 
-import ujmstudentproject.sementicweb.services.ServiceBuilding;
+import ujmstudentproject.sementicWeb.services.ServiceBuilding;
 
 public class ServiceBuildingImp implements ServiceBuilding {
     
