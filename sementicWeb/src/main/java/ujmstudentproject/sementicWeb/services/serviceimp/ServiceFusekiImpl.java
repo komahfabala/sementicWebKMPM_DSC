@@ -1,7 +1,6 @@
 package ujmstudentproject.sementicWeb.services.serviceimp;
 
 import java.io.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -99,7 +98,13 @@ public class ServiceFusekiImpl implements ServiceFuseki{
         String serviceURL = "http://localhost:3030/territoire";
         try(
                 RDFConnection conneg = RDFConnection.connect(serviceURL)){
-String line = "";
+                    if(filepath.contains(".ttl")){
+                        conneg.load(filepath);
+                        System.out.println("Everything done!!");
+                    }
+                    else if(filepath.contains(".txt")){
+                        
+                String line = "";
                     File ttl = new File(filepath);
                     try (FileReader fr = new FileReader(ttl, Charsets.UTF_8)) {
                         BufferedReader bReader = new BufferedReader(fr); // Lecture dans le fichier
@@ -114,8 +119,7 @@ String line = "";
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    
-
+                }
             /*QueryExecution q = conneg.query("Select * Where{?subject ?predicate ?object} LIMIT 10");
             ResultSet rs = q.execSelect();
             while(rs.hasNext()) {
@@ -179,6 +183,7 @@ String line = "";
             
             String[] arrayStrings;
             while((line = bReader.readLine()) !=null){
+                
                 arrayStrings = line.split(sep);
                 tempValueMap.get("time").add(arrayStrings[1]);
                 tempValueMap.get("HMDT").add(arrayStrings[2]);
@@ -189,6 +194,7 @@ String line = "";
                 tempValueMap.get("TEMP").add(arrayStrings[7]);
                 tempValueMap.get("ID").add(arrayStrings[8]);
                 tempValueMap.get("Location").add(arrayStrings[9]);
+
             }
         
         
@@ -262,12 +268,13 @@ String line = "";
                 ind = 5;
                 detector = tempValueMap.get("TEMP").get(i);
             }
-            System.out.println(dateTime + "_"+tim+" "+ room + " "+detector);
+            Double detectors = Double.parseDouble(detector);
+            System.out.println(dateTime + "_"+tim+" "+ room + " "+detectors);
 
             model.createResource(obsProperty+"_"+sensors.get(ind)+"_"+room+"_"+i)
-            .addProperty(locationProperty, room)
-            .addProperty(sosaProperty,sensors.get(ind), XSDDatatype.XSD)
-            .addProperty(sosaValueProperty ,detector,XSDDatatype.XSDdecimal)
+            .addProperty(locationProperty, room,XSDDatatype.XSDName)
+            .addProperty(sosaProperty,sensors.get(ind), XSDDatatype.XSDstring)
+            .addProperty(sosaValueProperty ,detectors.toString(),XSDDatatype.XSDdecimal)
             .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
             .addProperty(timeProperty,tim,XSDDatatype.XSDtime);
     
