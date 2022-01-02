@@ -6,16 +6,24 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import ujmstudentproject.sementicWeb.services.ServiceFuseki;
+import ujmstudentproject.sementicWeb.services.ServiceQuery;
 import ujmstudentproject.sementicWeb.services.serviceimp.ServiceFusekiImpl;
+import ujmstudentproject.sementicWeb.services.serviceimp.ServiceQueryImp;
 
 @SpringBootApplication
 public class SementicWebApplication {
 		public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(SementicWebApplication.class, args);
 		ServiceFuseki server = new ServiceFusekiImpl();
-		//server.loadTTL("src/main/java/ujmstudentproject/data/file_ttl.txt");
-		server.readCSV_From_Territoire("src/main/java/ujmstudentproject/data/20211116-daily-sensor-measures.csv");
-		}
+		ServiceQuery query = new ServiceQueryImp();
+
+		query.queryTempBuilding("2021-11-15", "15","e4_S421");
+		//server.readCSV_From_Territoire("src/main/java/ujmstudentproject/data/20211116-daily-sensor-measures.csv");
+		//server.loadTTL("src/main/java/ujmstudentproject/data/output-building-model.ttl");
+
+		System.out.println("Every thing done!");
+
+	}
 }
 
 

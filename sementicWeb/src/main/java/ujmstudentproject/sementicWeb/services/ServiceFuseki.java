@@ -9,6 +9,6 @@ public interface ServiceFuseki{
     public void readCSV_From_Territoire(String filePath);
     public void loadTTL(String filepath);
     public Model weather(Map<String, ArrayList<String>> tempValueMap, String code);
-    public void createCon();
+    //public void createCon();
 
 }

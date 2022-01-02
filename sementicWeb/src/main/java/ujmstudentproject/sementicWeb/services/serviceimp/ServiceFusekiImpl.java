@@ -1,18 +1,14 @@
 package ujmstudentproject.sementicWeb.services.serviceimp;
 
 import java.io.*;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.xml.crypto.Data;
-
 import org.apache.commons.codec.Charsets;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.query.*;
+
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdfconnection.*;
-import org.apache.jena.sparql.function.library.date;
 import org.apache.jena.vocabulary.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -116,7 +112,6 @@ public class ServiceFusekiImpl implements ServiceFuseki{
                         
                         
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -134,27 +129,7 @@ public class ServiceFusekiImpl implements ServiceFuseki{
             conneg.close() ;
         };
     }
-    public void createCon(){
-        String datasetURL = "http://localhost:3030/territoire";
-        String sparqlEndpoint = datasetURL + "/sparql";
-        //String sparqlUpdate = datasetURL + "/update";
-        //String graphStore = datasetURL + "/data";
-        try(
-                RDFConnection conneg = RDFConnection.connect(sparqlEndpoint)){
-            QueryExecution q = conneg.query("Select * Where{?subject ?predicate ?object}");
-            System.out.println(q.getQuery());
-            ResultSet rs = q.execSelect();
-            System.out.println(rs.getRowNumber());
-            while(rs.hasNext()) {
-                QuerySolution qs = rs.next() ;
-                Resource subject = qs.getResource("subject") ;
-                System.out.println("Subject: "+subject.getLocalName()) ;
-            }
-            q.close() ;
-            conneg.close() ;
-        };
-    }
-
+   
     @Override
     public void readCSV_From_Territoire(String filePath) {
         String sep = ",";
@@ -228,6 +203,7 @@ public class ServiceFusekiImpl implements ServiceFuseki{
         Property sosaProperty = model.createProperty(sosa_uri + "detector");
         Property sosaValueProperty = model.createProperty(sosa_uri + "hasValue");
         Property locationProperty = model.createProperty(building_uri + "room");
+        Property locationPropertyId = model.createProperty(building_uri + "id");
         Property dateProperty = model.createProperty(schema + "date");
         Property timeProperty = model.createProperty(schema + "time");
 
@@ -235,6 +211,7 @@ public class ServiceFusekiImpl implements ServiceFuseki{
         for(int i=0;i<tempValueMap.get("ID").size();i++){
             
             int ind = 0;
+            String id = tempValueMap.get("ID").get(i);
             String timestamp = tempValueMap.get("time").get(i);
             Long ts = Long.parseLong(timestamp);
             Date mydate = new Date(ts/1000000);
@@ -273,6 +250,7 @@ public class ServiceFusekiImpl implements ServiceFuseki{
 
             model.createResource(obsProperty+"_"+sensors.get(ind)+"_"+room+"_"+i)
             .addProperty(locationProperty, room,XSDDatatype.XSDName)
+            .addProperty(locationPropertyId, id,XSDDatatype.XSD)
             .addProperty(sosaProperty,sensors.get(ind), XSDDatatype.XSDstring)
             .addProperty(sosaValueProperty ,detectors.toString(),XSDDatatype.XSDdecimal)
             .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
