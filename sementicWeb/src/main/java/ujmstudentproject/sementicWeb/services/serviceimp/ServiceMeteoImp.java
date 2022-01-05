@@ -1,11 +1,11 @@
-package ujmstudentproject.sementicweb.services.serviceimp;
+package ujmstudentproject.sementicWeb.services.serviceimp;
 
 
 import org.springframework.stereotype.Service;
 
+import ujmstudentproject.sementicWeb.services.ServiceMeteo;
+import ujmstudentproject.sementicWeb.models.Meteo;
 
-import ujmstudentproject.sementicweb.models.Meteo;
-import ujmstudentproject.sementicweb.services.ServiceMeteo;
 import org.apache.jena.vocabulary.DC;// pour tester
 
 

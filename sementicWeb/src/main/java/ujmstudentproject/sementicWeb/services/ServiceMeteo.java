@@ -1,10 +1,10 @@
-package ujmstudentproject.sementicweb.services;
+package ujmstudentproject.sementicWeb.services;
 
 import java.util.Date;
 import java.util.Hashtable;
 
 import org.apache.jena.rdf.model.Model;
-import ujmstudentproject.sementicweb.models.Meteo;
+import ujmstudentproject.sementicWeb.models.Meteo;
 
 
 public interface ServiceMeteo{

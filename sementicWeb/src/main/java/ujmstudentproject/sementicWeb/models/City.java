@@ -1,4 +1,4 @@
-package ujmstudentproject.sementicweb.models;
+package ujmstudentproject.sementicWeb.models;
 import lombok.Data;
 
 @Data
@@ -12,6 +12,4 @@ public class City{
         this.latitude = latitude;
         this.longitude = longitude;   
     }
-
-    
 }
