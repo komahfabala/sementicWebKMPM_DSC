@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        Salle-date-information.
+    </title>
+    <link rel="stylesheet" href="" th:href="@{css/style.css}"/>
+</head>
+<body>
+    <h1> 
+        Select the date and the room.
+    </h1>
+    <form th:action="@{/selectBuildingRoom}" th:object="${buildingForm}" method="post">
+        <p>name-room: <input type ="text" th:field="*{nameBuilding}"/></p>
+        <p>jour: <input type="number" th:field="*{jour}"/></p>
+        <p>mois: <input type="number" th:field="*{mois}"/></p>
+        <p>annee: <input type="number" th:field="*{annee}"/></p>
+        <p><input type="submit" value="Submit"/></p>
+    </form>
+</body>
+</html>

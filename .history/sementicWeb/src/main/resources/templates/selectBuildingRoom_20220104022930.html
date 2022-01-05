@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        Salle-date-information.
+    </title>
+    <link rel="stylesheet" href="" th:href="@{css/style.css}"/>
+</head>
+<body>
+    <h1> 
+        Select the date and the room.
+    </h1>
+    <form class="form-Building-Room" th:action="@{/selectBuildingRoom}" th:object="${buildingForm}" method="post">
+       <table>
+           <tr>
+               <td>
+                   select the room
+               </td>
+               <td>
+                   <select name="liste_salle">
+                        <option th:each="liste_salle: ${liste_salles}" th:text="${liste_salle}"></option>
+                   </select>
+               </td>
+               <td>
+                <p>date_jour_mois_annee: <input type="text" th:field="*{date}"/></p>
+               </td>
+           </tr>
+           <tr>
+            <td>
+                <p><input type="submit" value="Submit"/></p>    
+            </td>
+           </tr>
+       </table>
+    </form>
+</body>
+</html>

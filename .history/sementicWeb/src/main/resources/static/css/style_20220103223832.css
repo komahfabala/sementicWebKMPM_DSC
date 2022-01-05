@@ -1,0 +1,19 @@
+body{
+    background-color: white;
+}
+
+h1{
+    color: black;
+    text-align: center;
+}
+.form-Building-Room{
+    text-align: center;
+    background-color: greenyellow;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+}
+.form-Building-Text thead tr{
+    background-color: #009879;
+}

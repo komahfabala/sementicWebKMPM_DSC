@@ -1,0 +1,13 @@
+body{
+    background-color: white;
+}
+
+h1{
+    color: black;
+    text-align: center;
+}
+.form-Building-Room{
+    text-align: center;
+    background-color: greenyellow;
+    border-collapse: collapse;
+}

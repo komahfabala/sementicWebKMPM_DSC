@@ -5,6 +5,13 @@
             "name": "Launch SementicWebApplication",
             "request": "launch",
             "mainClass": "ujmstudentproject.sementicweb.SementicWebApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "Launch SementicWebApplication",
+            "request": "launch",
+            "mainClass": "ujmstudentproject.sementicweb.SementicWebApplication",
             "projectName": "sementicWeb"
         },
         {
