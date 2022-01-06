@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Information requête</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <table border="1">
+      <caption class="cat-query2">
+        <h1>Information sur les temperatures de toutes les salles</h1>
+    </caption>
+    <thead>
+        <tr>
+            <th>Room</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Dtector</th>
+            <th>Value</th>
+            <th>sensor-location</th>
+          </tr>
+    </thead>
+        <tbody>
+          <tr th:each="mapItem, state : ${contacts}"
+          class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+            <td th:utext="${state}">No</td>
+            <td th:utext="${mapItem.key}">Phone Number</td>
+           </tr>
+        </tbody>
+    </table>
+    <div th:text="${flowers}"></div>
+</body>
+</html>

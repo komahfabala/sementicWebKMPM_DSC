@@ -1,9 +1,7 @@
 package ujmstudentproject.sementicweb.controllers;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,24 +50,12 @@ public class Accueil{
 
     @GetMapping(path={"/listeQuery"})
     public String listeQuery(Model model){ 
+        model.addAttribute("flowers", "je suis content");
         return "listequery.html";
     }
 
-    
-    @GetMapping("informationquery2")
     public String informationquery2(Model model){
-        /*
-            ici tu remplaces cette table par le resulat de ton query 
-            si tu change son nom il faudra changer aussi sur la page information query
-        */
-        Map<String,String> contacts = new HashMap<String,String>(); 
-        contacts.put("110033", "tom");
-        contacts.put("110055", "jerry");
-        contacts.put("110077", "donald");
-        contacts.put("110034", "tom");
-        contacts.put("110056", "jerry");
-        contacts.put("110078", "donald");
-        model.addAttribute("contacts", contacts);
+        model.addAttribute("data","comment");
         return "informationquery2.html";
     }
 

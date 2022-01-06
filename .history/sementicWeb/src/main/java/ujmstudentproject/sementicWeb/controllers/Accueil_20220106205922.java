@@ -52,25 +52,49 @@ public class Accueil{
 
     @GetMapping(path={"/listeQuery"})
     public String listeQuery(Model model){ 
+        model.addAttribute("flowers", "je suis content");
         return "listequery.html";
     }
 
     
     @GetMapping("informationquery2")
     public String informationquery2(Model model){
-        /*
-            ici tu remplaces cette table par le resulat de ton query 
-            si tu change son nom il faudra changer aussi sur la page information query
-        */
-        Map<String,String> contacts = new HashMap<String,String>(); 
+        String[] flowers = new String[] { "Rose", "Lily", "Tulip", "Carnation", "Hyacinth" }; 
+        model.addAttribute("flowers", flowers);
+        Map<String,String> contacts = new HashMap<String,String>();
         contacts.put("110033", "tom");
         contacts.put("110055", "jerry");
         contacts.put("110077", "donald");
-        contacts.put("110034", "tom");
-        contacts.put("110056", "jerry");
-        contacts.put("110078", "donald");
         model.addAttribute("contacts", contacts);
+        model.addAttribute("data","comment");
         return "informationquery2.html";
     }
 
 }
+/**
+ <table class="query2-infos">
+        <caption class="cat-query2">
+            <h1>Information sur les temperatures de toutes les salles</h1>
+        </caption>
+        <thead>
+            <tr>
+                <th>Room</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Dtector</th>
+                <th>Value</th>
+                <th>sensor-location</th>
+              </tr>
+        </thead>
+        <tbody>
+            <tr th:each="flower, state : ${flowers}">
+                <td th:utext="${state.index}">index</td>
+                <td th:utext="${state.count}">count</td>
+                <td th:utext="${state.size}">size</td>
+                <td th:utext="${state.even}">even</td>
+                <td th:utext="${state.odd}">odd</td>
+                <td th:utext="${state.first}">first</td>
+              </tr>
+        </tbody>
+    </table>
+ */

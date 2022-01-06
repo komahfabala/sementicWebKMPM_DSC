@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head> 
+      <meta charset="UTF-8" />
+      <title>Person List</title>
+      <link rel="stylesheet" th:href="@{/css/style.css}"/>
+   </head>
+   <body>
+      <h1> La liste des liens pour les réquêtes </h1>
+      <br/><br/>
+      <div>
+          <p>Accedez directement aux information sur la Metéo</p>
+         <ul>
+             <li>lien pour la première requête <a th:href="/templates/selectBuildingRoom.html">Première-requête</a></li>
+             <li>lien pour la deuxième requête <a th:href="/templates/informationquery2.html">Deuxième-requête</a></li>
+         </ul>
+      </div>
+   </body>
+</html>

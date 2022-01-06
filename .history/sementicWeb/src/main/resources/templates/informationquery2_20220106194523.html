@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Information requête</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    
+    <h1>Les informations sur la metéo </h1>
+    <table class="query2-infos">
+        <tr>
+          <th>Room</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Dtector</th>
+          <th>Value</th>
+          <th>sensor-location</th>
+          
+        </tr>
+        <tr th:each="flower, state : ${flowers}">
+          <td th:utext="${state.index}">index</td>
+          <td th:utext="${state.count}">count</td>
+          <td th:utext="${state.size}">size</td>
+          <td th:utext="${state.even}">even</td>
+          <td th:utext="${state.odd}">odd</td>
+          <td th:utext="${state.first}">first</td>
+        </tr>
+    </table>
+    <div th:text="${flowers}"></div>
+</body>
+</html>

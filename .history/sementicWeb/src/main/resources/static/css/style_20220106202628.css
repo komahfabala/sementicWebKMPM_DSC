@@ -131,14 +131,3 @@ ul{
     color: #fff;
     text-shadow: #000 0 0 .2em;
 }
-
-header.liste-header > h1 {
-    font: bold calc(1em + 2 * (100vw - 120px) / 100) 'Dancing Script', cursive,
-        fantasy;
-    margin: 2% auto;
-}
-
-.body-liste{
-    background-color:#45ffb8;
-    width: 100%;
-}

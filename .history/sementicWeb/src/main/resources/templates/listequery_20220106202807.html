@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head> 
+      <meta charset="UTF-8" />
+      <title>Person List</title>
+      <link rel="stylesheet" th:href="@{/css/style.css}"/>
+   </head>
+   <body>
+      <header class="liste-header">
+         <h1> Meteo Information EMSE Building & Ville Saint-Etienne!</h1>
+     </header>
+      <div>
+          <p>Accedez directement aux informations suivez:</p>
+         <ul>
+             <li>lien pour la première requête <a th:href="@{/selectBuildingRoom}">Première-requête</a></li>
+             <li>lien pour la deuxième requête <a th:href="@{/informationquery2}">Deuxième-requête</a></li>
+         </ul>
+      </div>
+   </body>
+</html>

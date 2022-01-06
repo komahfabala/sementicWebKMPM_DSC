@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Information requête</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <table border="1">
+        <tr>
+          <th>No</th>
+          <th>Phone</th>
+          <th>Full Name</th>
+          <th>Email</th>
+        </tr>
+        <tr th:each="mapItem, state : ${contacts}"
+               class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+          <td th:utext="${state.count}">No</td>
+          <td th:utext="${mapItem.key}">Phone Number</td>
+          <td th:utext="${mapItem.value.fullName}">Email</td>  
+          <td th:utext="${mapItem.value.email}">Email</td>
+        </tr>
+    </table>
+    <div th:text="${flowers}"></div>
+</body>
+</html>
