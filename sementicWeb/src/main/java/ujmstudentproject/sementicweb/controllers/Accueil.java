@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ujmstudentproject.sementicweb.dao.BuildDao;
 import ujmstudentproject.sementicweb.dao.InitData;
+import ujmstudentproject.sementicweb.models.Building;
 import ujmstudentproject.sementicweb.models.BuildingForm;
 import ujmstudentproject.sementicweb.services.ServiceMeteo;
 
@@ -26,6 +28,9 @@ public class Accueil{
     @Autowired
     InitData dao;
 
+    @Autowired
+    BuildDao daoQ;
+
     @RequestMapping("/")
     public String  scraping(){
        //service.parserWebString();
@@ -37,6 +42,7 @@ public class Accueil{
     public String selectBuildingRoom(Model model){
         model.addAttribute("buildingForm", new BuildingForm());
         List<String> listeSalles = dao.getSalle();
+        Building result  = daoQ.getBuild();
         model.addAttribute("listeSalles",listeSalles);
         return "selectBuildingRoom.html";
     }

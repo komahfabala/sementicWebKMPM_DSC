@@ -1,17 +1,22 @@
 package ujmstudentproject.sementicweb.services.serviceimp;
 
+import java.util.Date;
+
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdfconnection.RDFConnection;
+import org.apache.jena.sparql.sse.builders.BuilderOp.Build;
 import org.apache.jena.vocabulary.XSD;
 
+import ujmstudentproject.sementicweb.models.Building;
 import ujmstudentproject.sementicweb.services.ServiceQuery;
 
 public class ServiceQueryImp implements ServiceQuery {
 
     @Override
-    public void queryTempBuilding(String dateQ, String timeQ, String room) {
+    public Building queryTempBuilding(String dateQ, String timeQ, String room) {
+        Building newBuild = new Building();
         String datasetURL = "http://localhost:3030/territoire";
         String sparqlEndpoint = datasetURL + "/sparql";
         System.out.println(dateQ);
@@ -48,13 +53,16 @@ public class ServiceQueryImp implements ServiceQuery {
             ResultSet rs = q.execSelect();
             QuerySolution qs = rs.next() ;
             var res = qs.getLiteral("hasvalue");
-            //var resT = qs.getLiteral("mean");
             Double temp = Double.parseDouble(res.toString().replace("^^http://www.w3.org/2001/XMLSchema#decimal", ""));
             System.out.println(+Math.round(temp)) ;
-           
+          /*  newBuild.getMaxTemp((float) temp)
+            newBuild.setDate(new Date(dateQ));
+            newBuild.setNameBuilding(room);*/
             q.close() ;
             conneg.close() ;
         };
+
+        return newBuild;
     }
 
 }
