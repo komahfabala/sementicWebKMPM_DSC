@@ -1,16 +1,14 @@
 package ujmstudentproject.sementicweb.services.serviceimp;
 
 import java.io.*;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.commons.codec.Charsets;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.query.*;
+
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdfconnection.*;
-
 import org.apache.jena.vocabulary.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -97,7 +95,13 @@ public class ServiceFusekiImpl implements ServiceFuseki{
         String serviceURL = "http://localhost:3030/territoire";
         try(
                 RDFConnection conneg = RDFConnection.connect(serviceURL)){
-String line = "";
+                    if(filepath.contains(".ttl")){
+                        conneg.load(filepath);
+                        System.out.println("Everything done!!");
+                    }
+                    else if(filepath.contains(".txt")){
+                        
+                String line = "";
                     File ttl = new File(filepath);
                     try (FileReader fr = new FileReader(ttl, Charsets.UTF_8)) {
                         BufferedReader bReader = new BufferedReader(fr); // Lecture dans le fichier
@@ -109,11 +113,9 @@ String line = "";
                         
                         
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    
-
+                }
             /*QueryExecution q = conneg.query("Select * Where{?subject ?predicate ?object} LIMIT 10");
             ResultSet rs = q.execSelect();
             while(rs.hasNext()) {
@@ -128,34 +130,15 @@ String line = "";
             conneg.close() ;
         };
     }
-    public void createCon(){
-        String datasetURL = "http://localhost:3030/territoire";
-        String sparqlEndpoint = datasetURL + "/sparql";
-        //String sparqlUpdate = datasetURL + "/update";
-        //String graphStore = datasetURL + "/data";
-        try(
-                RDFConnection conneg = RDFConnection.connect(sparqlEndpoint)){
-            QueryExecution q = conneg.query("Select * Where{?subject ?predicate ?object}");
-            System.out.println(q.getQuery());
-            ResultSet rs = q.execSelect();
-            System.out.println(rs.getRowNumber());
-            while(rs.hasNext()) {
-                QuerySolution qs = rs.next() ;
-                Resource subject = qs.getResource("subject") ;
-                System.out.println("Subject: "+subject.getLocalName()) ;
-            }
-            q.close() ;
-            conneg.close() ;
-        };
-    }
-
+   
     @Override
     public void readCSV_From_Territoire(String filePath) {
         String sep = ",";
         Model models = ModelFactory.createDefaultModel();
         Map<String, ArrayList<String>> tempValueMap = new HashMap<String, ArrayList<String>>();
-
+        int i = 0;
         try{
+            i++;
             File csvFile = new File(filePath);
             FileReader fr = new FileReader(csvFile, Charsets.UTF_8);
             BufferedReader bReader = new BufferedReader(fr); // Lecture dans le fichier
@@ -164,7 +147,7 @@ String line = "";
             //System.out.println(bReader.readLine().split(",")[0] +" ");
             // name,time,HMDT,LUMI,SND,SNDF,SNDM,TEMP,id,location,type
 
-            // Creation d'un dictionnaire avec des keys Hour et Degre
+            // Creation d'un dictionnaire avec des keys 
             tempValueMap.put("time", new ArrayList<String>());
             tempValueMap.put("HMDT", new ArrayList<String>());
             tempValueMap.put("LUMI", new ArrayList<String>());
@@ -175,8 +158,14 @@ String line = "";
             tempValueMap.put("ID", new ArrayList<String>());
             tempValueMap.put("Location", new ArrayList<String>());
             
+            List<String> location = new ArrayList<String>();
             String[] arrayStrings;
+            
             while((line = bReader.readLine()) !=null){
+                i++;
+                /*if (i==101){
+                    break;
+                }*/
                 arrayStrings = line.split(sep);
                 tempValueMap.get("time").add(arrayStrings[1]);
                 tempValueMap.get("HMDT").add(arrayStrings[2]);
@@ -187,6 +176,12 @@ String line = "";
                 tempValueMap.get("TEMP").add(arrayStrings[7]);
                 tempValueMap.get("ID").add(arrayStrings[8]);
                 tempValueMap.get("Location").add(arrayStrings[9]);
+
+
+                if(!location.contains(arrayStrings[9])){
+                    System.out.println(arrayStrings[9]);
+                    location.add(arrayStrings[9]);
+                }
             }
         
         
@@ -195,9 +190,8 @@ String line = "";
             FileWriter out= new FileWriter(outTTL, Charsets.UTF_8);
             models.write(out, "TURTLE");
             out.close();
-           // models.write(System.out, "TURTLE");
+            //models.write(System.out, "TURTLE");
             bReader.close();
-            System.out.println("Everything done!!");
 
         }catch(IOException ex){
             ex.printStackTrace();
@@ -205,28 +199,42 @@ String line = "";
         
     }
     private Model building(Map<String, ArrayList<String>> tempValueMap) {
-        Model model = ModelFactory.createDefaultModel();
-        String building_uri = "https://territoire.emse.fr/kg/emse/fayol/";
-        String sosa_uri = "http://www.w3.org/ns/sosa/";
-        String schema = "http://schema.org/";
+        System.out.println("\n*******************************************************\n");
+        System.out.println("\n************Creation du model de builduing*************\n");
+        System.out.println("\n*******************************************************\n");
 
-        model.setNsPrefix("territoire", building_uri)
+        Model model = ModelFactory.createDefaultModel();
+        String building_uri4ET = "https://territoire.emse.fr/kg/emse/fayol/4ET/";
+        String seas_uri = "https://w3id.org/seas/";
+        String ex = "http://exemple.org/";
+
+        model.setNsPrefix("territoire", building_uri4ET)
                 .setNsPrefix("rdfs", RDFS.getURI())
                 .setNsPrefix("xsd", XSD.getURI())
-                .setNsPrefix("sosa", sosa_uri)
-                .setNsPrefix("shma", schema);
+                .setNsPrefix("seas", seas_uri)
+                .setNsPrefix("ex", ex)
+                .setNsPrefix("e4", building_uri4ET);
+
 // name,time,HMDT,LUMI,SND,SNDF,SNDM,TEMP,id,location,type
-        Property obsProperty = model.createProperty(schema + "observation");
-        Property sosaProperty = model.createProperty(sosa_uri + "detector");
-        Property sosaValueProperty = model.createProperty(sosa_uri + "hasValue");
-        Property locationProperty = model.createProperty(building_uri + "room");
-        Property dateProperty = model.createProperty(schema + "date");
-        Property timeProperty = model.createProperty(schema + "time");
+        Property obsProperty = model.createProperty(ex + "observation");
+        Property seasPropertyType = model.createProperty(ex + "detector");
+        Property seas= model.createProperty(seas_uri);
+        Property seasValueProperty = model.createProperty(ex + "hasValue");
+        Property buildingSensorId = model.createProperty(ex + "hasSensorId");
+        Property buildingPropertyName = model.createProperty(ex + "hasName");
+        Property locationProperty = model.createProperty(building_uri4ET);
+     
+        Property dateProperty = model.createProperty(ex + "date");
+        Property timeProperty = model.createProperty(ex + "time");
 
         List<String> sensors = new ArrayList<String>(Arrays.asList("HMDT","LUMI","SND","SNDF","SNDM","TEMP"));
+        List<String> sensorsType = new ArrayList<String>(Arrays.asList("humidity","luminosity","atmosphericPressure","atmosphericPressure","atmosphericPressure","temperature"));
+        List<String> room_number = new ArrayList<String>(Arrays.asList("400","401D","401F","401H","403","404","405","406","407","408","409","410","411","412","414","416","418","420A","420B","421","422","423","424","425","426","428","429","430","431F","431H","432","434"));
+        
+        List<String> id_record = new ArrayList<String>();
         for(int i=0;i<tempValueMap.get("ID").size();i++){
-            
             int ind = 0;
+            String id = tempValueMap.get("ID").get(i);
             String timestamp = tempValueMap.get("time").get(i);
             Long ts = Long.parseLong(timestamp);
             Date mydate = new Date(ts/1000000);
@@ -236,8 +244,8 @@ String line = "";
             String dateTime = date.split("T")[0]; // Get date format yyyy-MM-dd
             
             String tim = date.split("T")[1]; //Get time format HH:mm:ss
-            
-              String room = tempValueMap.get("Location").get(i).toString().replace("emse/fayol/", "").replace("/","_");
+            String room = tempValueMap.get("Location").get(i).toString().replace("emse/fayol/", "").replace("/","_");
+           
             // We have only one detector per line so 
             String detector = "";
             if(!tempValueMap.get("HMDT").get(i).isEmpty()){
@@ -260,15 +268,31 @@ String line = "";
                 ind = 5;
                 detector = tempValueMap.get("TEMP").get(i);
             }
-            System.out.println(dateTime + "_"+tim+" "+ room + " "+detector);
+            Double detectors = Double.parseDouble(detector);
+            
+            // Triplet de salle plus id
+            if(!id_record.contains(id)){
+                id_record.add(id);
+              Resource dd = model.createResource(building_uri4ET+room.replace("e4_S","")).addProperty(buildingPropertyName, room);  
+              model.add(dd, buildingSensorId, id);
+            }
 
-            model.createResource(obsProperty+"_"+sensors.get(ind)+"_"+room+"_"+i)
-            .addProperty(locationProperty, room)
-            .addProperty(sosaProperty,sensors.get(ind), XSDDatatype.XSD)
-            .addProperty(sosaValueProperty ,detector,XSDDatatype.XSDdecimal)
-            .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
-            .addProperty(timeProperty,tim,XSDDatatype.XSDtime);
-    
+            if (room_number.contains(room.replace("e4_S",""))){
+                room = room.replace("e4_S","");
+            System.out.println(dateTime + "_"+tim+" "+ room + " "+detectors +"==>"+ i);
+
+                model.createResource(obsProperty+"_"+sensors.get(ind)+"_"+room+"_"+i)
+                .addProperty(locationProperty, room,XSDDatatype.XSD)
+                .addProperty(seasPropertyType,sensors.get(ind), XSDDatatype.XSDstring)
+                .addProperty(seas, sensorsType.get(ind))
+                .addProperty(seasValueProperty ,detectors.toString(),XSDDatatype.XSDdecimal)
+                .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
+                .addProperty(timeProperty,tim,XSDDatatype.XSDtime);
+            }
+            if (i==120){
+                break;
+            }
+           
         }
         return model;
     }
@@ -279,9 +303,9 @@ String line = "";
 @prefix observation: http://localhost:3030/observation/ .
 @prefix room: https://territoire.emse.fr/kg/emse/fayol/4ET/ .
 @prefix sensor: http://localhost:3030/sensor/ .
-@prefix sosa: http://www.w3.org/ns/sosa/ .
+@prefix seas: http://www.w3.org/ns/sosa/ .
 @prefix ssn: http://www.w3.org/ns/ssn/ .
-@prefix xsd: http://www.w3.org/2001/XMLSchema# .
+@prefix xsd: http://www.w3.org/2001/XMLex# .
 room:405 core:isLocationOf sensor:6bd134b6_339c_4168_9aeb_ae7d0f236851 .
 observation:03f5ca58_aa70_47b3_980c_c8f486cac9ee_hmdt_id_1 a sosa:Observation ;
     sosa:hasSimpleResult "54.7"^^xsd:float ;
