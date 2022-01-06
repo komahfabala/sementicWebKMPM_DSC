@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            information.
+        </title>
+    <link rel="stylesheet" href="" th:href="@{css/style.css}"/>
+    </head>
+    <body>
+
+        <h1>
+            Les informations de la journée
+        </h1>
+        <table class="information-table">
+            <tr>
+              <td>&nbsp;</td>
+              <td>Nom</td>
+              <td>Temperature minimal</td>
+              <td>Temperature maximal</td>
+              <td>Temperature moyenne</td>
+            </tr>
+            <tr>
+              <td>Salle</td>
+              <td>coucou</td>
+              <td>Poodle</td>
+              <td>Streetdog</td>
+              <td>Cocker Spaniel</td>
+            </tr>
+            <tr>
+              <td>ville</td>
+              <td>16</td>
+              <td>9</td>
+              <td>10</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>Propriétaire</td>
+              <td>Belle-mère</td>
+              <td>Moi</td>
+              <td>Moi</td>
+              <td>Belle-soeur</td>
+            </tr>
+            <tr>
+              <td>Habitudes alimentaires</td>
+              <td>Mange tous les restes</td>
+              <td>Grignotte la nourriture</td>
+              <td>Mange copieusement</td>
+              <td>Mange jusqu'à ce qu'il éclate</td>
+            </tr>
+          </table>
+          
+        <div th:text="${data.idate.toString()}"></div>
+        <div th:text="${data.nameBuilding}"></div>
+    </body>
+</html>

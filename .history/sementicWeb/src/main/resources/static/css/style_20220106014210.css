@@ -1,0 +1,76 @@
+body{
+    background-color: white;
+}
+
+h1{
+    color: black;
+    text-align: center;
+}
+.form-Building-Room{
+    text-align: center;
+    background-color: greenyellow;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+}
+.form-Building-Text thead tr{
+    background-color: #009879;
+    color: #ffffff;
+}
+
+.information-table{
+    border: medium solid greenyellow;
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 200;
+    height: auto;
+}
+.information-table td{
+    text-align: center;
+    font-family: sans-serif;
+    border: thin solid greenyellow;
+    border-collapse: collapse;
+    width: 20%;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+.information-table th{
+    font-family: monospace;
+    border: thin solid greenyellow;
+    border-collapse: collapse;
+    width: 10%;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+.information-table thead tr td {
+    background-color:springgreen;
+}
+
+.entete-table{
+    padding: 10px;
+    letter-spacing: 1px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+.page-header{
+    background: no-repeat left/cover url(/https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.lyonmag.com%2Fmedia%2Fimages%2Fthumb%2F870x653_c1hg7sixeaawqyj.jpg&imgrefurl=https%3A%2F%2Fwww.lyonmag.com%2Farticle%2F97884%2Fpas-de-saint-etienne-sur-les-cartes-meteo-la-coupable-s-appelle-lyon&tbnid=9LLg2x6xOk4xlM&vet=12ahUKEwjA_7j98Zv1AhVhxoUKHabxABIQMyhGegQIARBX..i&docid=EKXu6UI1EL6txM&w=870&h=653&q=image%20meteo%20saint-etienne&client=firefox-b-d&ved=2ahUKEwjA_7j98Zv1AhVhxoUKHabxABIQMyhGegQIARBX);
+    display: flex;
+    height: 120px;
+    min-width: 120px;
+    align-items: center;
+    color: #fff;
+    text-shadow: #000 0 0 .2em;
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    background-color: #45a1ff;
+    color: #fff;
+}

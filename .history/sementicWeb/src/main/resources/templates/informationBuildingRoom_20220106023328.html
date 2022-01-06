@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            information.
+        </title>
+    <link rel="stylesheet" href="" th:href="@{css/style.css}"/>
+    </head>
+    <body>
+        <header class="page-header">
+            <h1> Meteo Information EMSE Building & Ville Saint-Etienne!</h1>
+        </header>
+        
+        <table class="information-table">
+          <caption class="entete-table">Présentation des informations meteorologique de la salle</caption>
+            <thead>
+              <tr>
+                <td>&nbsp;</td>
+                <td>Nom</td>
+                <td>Temperature minimal</td>
+                <td>Temperature maximal</td>
+                <td>Temperature moyenne</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Salle</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>  
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>16</td>
+                <td>9</td>
+                <td>10</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>Propriétaire</td>
+                <td>Belle-mère</td>
+                <td>Moi</td>
+                <td>Moi</td>
+                <td>Belle-soeur</td>
+              </tr>
+              <tr>
+                <td>Habitudes alimentaires</td>
+                <td>Mange tous les restes</td>
+                <td>Grignotte la nourriture</td>
+                <td>Mange copieusement</td>
+                <td>Mange jusqu'à ce qu'il éclate</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        <div th:text="${data.idate.toString()}"></div>
+        <div th:text="${data.nameBuilding}"></div>
+        <footer class="footer">
+          <p>© 2021-2022 2style and Djib's production</p>
+        </footer>
+    </body>
+</html>
