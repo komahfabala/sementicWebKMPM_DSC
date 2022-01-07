@@ -20,10 +20,10 @@ public class SementicWebApplication {
 		//query.queryTempBuilding("2021-11-15");
 		//server	.readCSV_From_Meteo("src/main/java/ujmstudentproject/data/meteo.csv");
 		//server.readCSV_From_Territoire("src/main/java/ujmstudentproject/data/20211116-daily-sensor-measures.csv");
-		//server.loadTTL("src/main/java/ujmstudentproject/data/output-building-model.ttl");
-		//server.loadTTL("src/main/java/ujmstudentproject/data/meteo-output-model.ttl");
+		server.loadTTL("src/main/java/ujmstudentproject/data/output-building-model.ttl");
+		server.loadTTL("src/main/java/ujmstudentproject/data/meteo-output-model.ttl");
 
-		//System.out.println("Every thing done!" + data.get("time").get(1));
+		System.out.println("Every thing done!");
 
 		}
 }

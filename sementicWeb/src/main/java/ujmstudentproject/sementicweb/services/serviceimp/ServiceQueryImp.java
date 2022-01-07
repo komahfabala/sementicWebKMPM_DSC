@@ -6,15 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.jsonldjava.core.RDFDataset.Literal;
 
-import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.query.*;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdfconnection.RDFConnection;
-import org.apache.jena.sparql.function.library.date;
-import org.apache.jena.sparql.sse.builders.BuilderOp.Build;
-import org.apache.jena.vocabulary.XSD;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ujmstudentproject.sementicweb.models.Building;
@@ -134,7 +128,6 @@ public class ServiceQueryImp implements ServiceQuery {
                     }
                 }
                 value = List.of(temp.toString(), room.toString(), detector.toString());
-
                 buildValueMap.get("time").add(time.toString());
                 buildValueMap.get("room").add(room.toString());
                 buildValueMap.get("location").add(location.toString());
@@ -150,35 +143,7 @@ public class ServiceQueryImp implements ServiceQuery {
             q.close();
             conneg.close();
         };
-        System.out.println(buildValueMap.get("date").size());
         return buildValueMap;
     }
 
 }
-
-/*
- * "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n"+
- * "PREFIX shma: <http://schema.org/>\n"+
- * "PREFIX sosa: <http://www.w3.org/ns/sosa/>\n"+
- * "PREFIX territoire: <https://territoire.emse.fr/kg/emse/fayol/>\n"+
- * "Select Distinct ?subject ?hasValue ?time where{\n"+
- * "?subject shma:date '"+dateQ+"'^^xsd:date;\n"+
- * "shma:time ?time;\n"+
- * "sosa:detector 'TEMP';\n"+
- * "sosa:hasValue ?hasValue;\n"+
- * "territoire:room '"+room+"'^^xsd:Name.\n"+
- * "FILTER regex(str(?time), '^"+timeQ+"','i').\n"+
- * "}LIMIT 10"
- */
-
-/**
- * 
- * "Select Distinct (Count(?hasValue) as ?count) (AVG(?hasValue) as ?mean) {\n"+
- * "?subject shma:date '"+dateQ+"'^^xsd:date;\n"+
- * "sosa:detector 'TEMP';\n"+
- * "sosa:hasValue ?hasValue;\n"+
- * "territoire:room ?room\n"+
- * "FILTER regex(str(?room), '"+room+"','i').\n"+
- * 
- * "}\n group by (?room)";
- */

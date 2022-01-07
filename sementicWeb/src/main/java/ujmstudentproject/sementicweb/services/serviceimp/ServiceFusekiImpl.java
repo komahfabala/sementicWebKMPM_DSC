@@ -285,7 +285,7 @@ public class ServiceFusekiImpl implements ServiceFuseki{
             .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
             .addProperty(timeProperty,tim);
 
-            if(i==2000){
+            if(i==1038566){
                 break;
             }
         }
@@ -293,20 +293,3 @@ public class ServiceFusekiImpl implements ServiceFuseki{
     }
 }
 
-/*
-@prefix core: https://w3id.org/rec/core/ .
-@prefix observation: http://localhost:3030/observation/ .
-@prefix room: https://territoire.emse.fr/kg/emse/fayol/4ET/ .
-@prefix sensor: http://localhost:3030/sensor/ .
-@prefix seas: http://www.w3.org/ns/sosa/ .
-@prefix ssn: http://www.w3.org/ns/ssn/ .
-@prefix xsd: http://www.w3.org/2001/XMLex# .
-room:405 core:isLocationOf sensor:6bd134b6_339c_4168_9aeb_ae7d0f236851 .
-observation:03f5ca58_aa70_47b3_980c_c8f486cac9ee_hmdt_id_1 a sosa:Observation ;
-    sosa:hasSimpleResult "54.7"^^xsd:float ;
-    sosa:observedProperty https://territoire.emse.fr/kg/emse/fayol/4ET/431H#humidity ;
-    sosa:resultTime "2021-11-15T05:31:28"^^xsd:dateTime .
-sensor:6bd134b6_339c_4168_9aeb_ae7d0f236851 a sosa:Sensor ;
-    ssn:detects observation:6bd134b6_339c_4168_9aeb_ae7d0f236851_lumi_id_1000009,
-        observation:6bd134b6_339c_4168_9aeb_ae7d0f236851_lumi_id_1000010,
-*/
