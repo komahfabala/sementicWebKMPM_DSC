@@ -44,7 +44,7 @@ public class ServiceMeteoImp implements ServiceMeteo{
 
 
     public Date myDateFormDate(String d_date){
-        SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyy");
+        SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
         try {
             Date dateObject = formater.parse(d_date);
             return dateObject;

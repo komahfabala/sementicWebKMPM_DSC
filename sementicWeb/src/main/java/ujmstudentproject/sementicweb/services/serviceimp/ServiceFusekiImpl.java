@@ -30,20 +30,22 @@ public class ServiceFusekiImpl implements ServiceFuseki{
                 .setNsPrefix("xsd", XSD.getURI());
 
         Property codeProperty = model.createProperty(temp_uri + "code");
-        Property maxTpProperty = model.createProperty(temp_uri + "maxTp");
-        Property minTpProperty = model.createProperty(temp_uri + "minTp");
+        Property timeProperty = model.createProperty(temp_uri + "time");
+        Property tempProperty = model.createProperty(temp_uri + "temp");
         Property dateProperty = model.createProperty(temp_uri + "date");
 
-        for(int i=0;i<tempValueMap.get("maxTp").size();i++){
-            String maxTp = tempValueMap.get("maxTp").get(i).replace(" °C", "").replace("\"", "");
-            String minTp = tempValueMap.get("minTp").get(i).replace(" °C", "").replace("\"", "");
+        for(int i=0;i<tempValueMap.get("time").size();i++){
+            String time = tempValueMap.get("time").get(i).replace(" h", "").replace("\"", "");
+            String temp = tempValueMap.get("temp").get(i).replace(" °C", "").replace("\"", "");
             String date = tempValueMap.get("date").get(i).replace("\"", "");
-
-            model.createResource()
+            String[] sp = date.split("-");
+            date = sp[2]+"-"+sp[1]+"-"+sp[0];
+            System.out.println(date);
+            model.createResource(temp_uri+"observation_time_"+time)
                     .addProperty(codeProperty,code)
                     .addProperty(dateProperty,date, XSDDatatype.XSDdate)
-                    .addProperty(maxTpProperty,maxTp,XSDDatatype.XSDdecimal)
-                    .addProperty(minTpProperty,minTp,XSDDatatype.XSDdecimal);
+                    .addProperty(timeProperty,time)
+                    .addProperty(tempProperty,temp,XSDDatatype.XSDdecimal);
         }
         return model;
     }
@@ -60,24 +62,23 @@ public class ServiceFusekiImpl implements ServiceFuseki{
             bReader.readLine();
             bReader.readLine();
             //System.out.println(bReader.readLine().split(",")[0] +" ");
-            // 0=="maxTp",1=="minTp",2=="date"
+            // 0=="time",1=="temp",2=="date"
 
             // Creation d'un dictionnaire avec des keys Hour et Degre
-            tempValueMap.put("maxTp", new ArrayList<String>());
-            tempValueMap.put("minTp", new ArrayList<String>());
+            tempValueMap.put("time", new ArrayList<String>());
+            tempValueMap.put("temp", new ArrayList<String>());
             tempValueMap.put("date", new ArrayList<String>());
             String[] arrayStrings;
             while((line = bReader.readLine()) !=null){
 
                 arrayStrings = line.split(sep);
-                tempValueMap.get("maxTp").add(arrayStrings[0]);
-                tempValueMap.get("minTp").add(arrayStrings[1]);
-                tempValueMap.get("date").add(arrayStrings[2]);
-
-            }
+                tempValueMap.get("time").add(arrayStrings[0]);
+                tempValueMap.get("temp").add(arrayStrings[1]);
+                tempValueMap.get("date").add(arrayStrings[3]);
+  }
 
             models = weather(tempValueMap,"7475");
-            File outTTL = new File("sementicWeb/src/main/java/ujmstudentproject/data/output-model.ttl");
+            File outTTL = new File("src/main/java/ujmstudentproject/data/meteo-output-model.ttl");
             FileWriter out= new FileWriter(outTTL, Charsets.UTF_8);
             models.write(out, "TURTLE");
             out.close();
@@ -116,16 +117,7 @@ public class ServiceFusekiImpl implements ServiceFuseki{
                         e.printStackTrace();
                     }
                 }
-            /*QueryExecution q = conneg.query("Select * Where{?subject ?predicate ?object} LIMIT 10");
-            ResultSet rs = q.execSelect();
-            while(rs.hasNext()) {
-                QuerySolution qs = rs.next() ;
-                Resource subject = qs.getResource("predicate") ;
-                var s = qs.getLiteral("object");
-                //System.out.println("Subject: "+subject.getNameSpace()) ;
-                System.out.println("Subject: "+s) ;
-            }
-            q.close() ;*/
+       
             conneg.commit();
             conneg.close() ;
         };
@@ -207,25 +199,27 @@ public class ServiceFusekiImpl implements ServiceFuseki{
         String building_uri4ET = "https://territoire.emse.fr/kg/emse/fayol/4ET/";
         String seas_uri = "https://w3id.org/seas/";
         String ex = "http://exemple.org/";
+        String sosa = "http://www.w3.org/ns/sosa/";
+        String ssn = "http://www.w3.org/ns/ssn/";
 
         model.setNsPrefix("territoire", building_uri4ET)
                 .setNsPrefix("rdfs", RDFS.getURI())
                 .setNsPrefix("xsd", XSD.getURI())
                 .setNsPrefix("seas", seas_uri)
-                .setNsPrefix("ex", ex)
-                .setNsPrefix("e4", building_uri4ET);
+                .setNsPrefix("ex", ex).setNsPrefix("ssn", ssn).setNsPrefix("sosa", sosa);
 
 // name,time,HMDT,LUMI,SND,SNDF,SNDM,TEMP,id,location,type
-        Property obsProperty = model.createProperty(ex + "observation");
-        Property seasPropertyType = model.createProperty(ex + "detector");
-        Property seas= model.createProperty(seas_uri);
-        Property seasValueProperty = model.createProperty(ex + "hasValue");
+        Property obsProperty = model.createProperty(sosa + "Observation");
+        Property ssnPropertyDetection = model.createProperty(ssn + "detect");
+        Property seas= model.createProperty(sosa + "Sensor");
+        Property sosaResult = model.createProperty(sosa + "hasResult");
         Property buildingSensorId = model.createProperty(ex + "hasSensorId");
         Property buildingPropertyName = model.createProperty(ex + "hasName");
+        Property buildingPropertyLocation = model.createProperty(sosa + "isHostedBy");
         Property locationProperty = model.createProperty(building_uri4ET);
      
         Property dateProperty = model.createProperty(ex + "date");
-        Property timeProperty = model.createProperty(ex + "time");
+        Property timeProperty = model.createProperty(sosa + "resultTime");
 
         List<String> sensors = new ArrayList<String>(Arrays.asList("HMDT","LUMI","SND","SNDF","SNDM","TEMP"));
         List<String> sensorsType = new ArrayList<String>(Arrays.asList("humidity","luminosity","atmosphericPressure","atmosphericPressure","atmosphericPressure","temperature"));
@@ -279,20 +273,21 @@ public class ServiceFusekiImpl implements ServiceFuseki{
 
             if (room_number.contains(room.replace("e4_S",""))){
                 room = room.replace("e4_S","");
-            System.out.println(dateTime + "_"+tim+" "+ room + " "+detectors +"==>"+ i);
+            System.out.println(dateTime + "_"+tim+" "+ room.replace("e4_S","") + " "+detectors +"==>"+ i);
 
-                model.createResource(obsProperty+"_"+sensors.get(ind)+"_"+room+"_"+i)
-                .addProperty(locationProperty, room,XSDDatatype.XSD)
-                .addProperty(seasPropertyType,sensors.get(ind), XSDDatatype.XSDstring)
-                .addProperty(seas, sensorsType.get(ind))
-                .addProperty(seasValueProperty ,detectors.toString(),XSDDatatype.XSDdecimal)
-                .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
-                .addProperty(timeProperty,tim,XSDDatatype.XSDtime);
             }
-            if (i==120){
+            model.createResource(obsProperty+"_"+sensors.get(ind)+"_"+room.replace("e4_S","")+"_"+i)
+            .addProperty(locationProperty, room.replace("e4_S",""))
+            .addProperty(buildingPropertyLocation, tempValueMap.get("Location").get(i))
+            .addProperty(ssnPropertyDetection,sensors.get(ind), XSDDatatype.XSDstring)
+            .addProperty(seas, sensorsType.get(ind))
+            .addProperty(sosaResult ,detectors.toString(),XSDDatatype.XSDdecimal)
+            .addProperty(dateProperty,dateTime,XSDDatatype.XSDdate)
+            .addProperty(timeProperty,tim);
+
+            if(i==2000){
                 break;
             }
-           
         }
         return model;
     }

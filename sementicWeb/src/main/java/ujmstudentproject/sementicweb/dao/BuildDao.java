@@ -1,23 +1,29 @@
 package ujmstudentproject.sementicweb.dao;
 
-import javax.management.Query;
+import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ujmstudentproject.sementicweb.models.Building;
 import ujmstudentproject.sementicweb.services.ServiceQuery;
-import ujmstudentproject.sementicweb.services.serviceimp.ServiceQueryImp;
+
 
 @Repository
 public class BuildDao {
+
+    Map<String, ArrayList<String>> data;
     @Autowired
+    static
     ServiceQuery query ;
     
     Building build = new Building();
 
-    public Building getBuild(){
-        query.queryTempBuilding("4545", "timeQ", "room");
-        return build;
+    static Map<String, ArrayList<String>> getAllTemp(){
+        Map<String, ArrayList<String>> data = query.queryTempAllBuilding();
+
+        System.out.println(data.get("time").get(1));
+        return data;
     }
 }
