@@ -5,7 +5,7 @@
     <title>
         Salle-date-information.
     </title>
-    <link rel="stylesheet" href="" th:href="@{css/style.css}"/>
+    <link rel="stylesheet"  th:href="@{css/style.css}"/>
 </head>
 <body>
     <h1> 
@@ -41,3 +41,44 @@
     </form>
 </body>
 </html>
+
+
+
+<tr th:each="state : ${room}">
+    <td th:utext="${state}">No</td>
+
+
+
+    <table class="query2-infos">
+        <caption class="cat-query2">
+          <h1>Information sur les temperatures de toutes les salles</h1>
+      </caption>
+      <thead>
+          <tr>
+              <th>Room</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Dtector</th>
+              <th>Value</th>
+              <th>sensor-location</th>
+            </tr>
+      </thead>
+          <tbody>
+            <tr th:each="state : ${allData}">
+              <td th:utext="${state.value}">No</td>
+              <td th:utext="${state}">No</td>
+          </tbody>
+      </table>
+  
+
+      <ul class="inline">
+        <li th:each="key : ${room}">
+          <span th:text="${key}"></span>
+        </li>
+        <br>
+        <li th:each="date : ${dateL}">
+          <span th:text="${date}">
+          </span>
+        </li>
+      </ul>
+    

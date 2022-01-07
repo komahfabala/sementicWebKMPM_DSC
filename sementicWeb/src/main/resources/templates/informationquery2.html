@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Information requête</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <tr th:each="data, iterstat: ${allData}">
+     
+    <td th:text="${data}" th:id="|td${iterstat.index}|">
+  </tr>
+   
+  <div th:text="${flowers}"></div>
+</body>
+
+</html>
